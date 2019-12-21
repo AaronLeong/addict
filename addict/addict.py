@@ -1,5 +1,6 @@
 import copy
-
+import yaml
+import json
 
 class Dict(dict):
 
@@ -107,6 +108,17 @@ class Dict(dict):
                 self[k] = v
             else:
                 self[k].update(v)
+
+    def merge_from_file(self, filename):
+        if filename.endswith('.yaml'):
+            self.merge_from_yaml(filename)
+        else:
+            raise RuntimeError("=> unknown filename format {}".format(filename))
+
+    def merge_from_yaml(self, filename):
+        with open(filename, 'r') as f:
+            kwargs = yaml.safe_load(f)
+            self.update(kwargs)
 
     def __getnewargs__(self):
         return tuple(self.items())
