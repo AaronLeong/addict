@@ -109,6 +109,11 @@ class Dict(dict):
             else:
                 self[k].update(v)
 
+    def init_from_yaml(self, filename):
+        with open(filename, 'r') as f:
+            _strs = yaml.safe_load(f)
+            return Dict(_strs)
+
     def merge_from_file(self, filename):
         if filename.endswith('.yaml'):
             self.merge_from_yaml(filename)
